@@ -1,103 +1,83 @@
 ---
-title: Astrometers AMSKY01 API
-categories: ["weather-stations"]
-description: Astrometers AMSKY01 API
-thumbnail: ./amsky01.webp
+title: AstroMeters AMSKY01
+categories: ["weather-stations", "auxiliaries"]
+description: Sky quality, cloud detection and environmental sensor with infrared thermopile array, SQM and humidity sensor.
+thumbnail: ./images/amsky01-outdoor.png
 ---
-
-indi_amsky01_api is an INDI driver for accessing data from [AMSKY01 Sky & Cloud Sensor](https://astrometers.eu/products/AMSKY01/). The driver acts as a bridge between the AMSKY01_viewer and INDI clients, exposing measured sky and environmental data through the standard INDI protocol.
-
-The driver connects to a running  [AMSKY01_viewer](https://github.com/roman-dvorak/AMSKY01/tree/main/sw) instance, which performs low-level device communication and data acquisition, while  `indi_amsky01_api`  focuses on INDI integration and client access.
-
-----------
 
 ## Overview
 
--   Implements an INDI interface for the AMSKY01 sensor
-    
--   Designed for use in automated observatories and monitoring setups
-    
--   Uses AMSKY01_viewer as a backend data provider
-    
--   Provides real-time access to sky and environmental measurements
-    
+The **AMSKY01** is a compact, weatherproof sky sensor designed for astronomical observatories and environmental monitoring. It combines sky brightness measurement, infrared cloud detection and ambient condition monitoring in a single outdoor-rated unit.
 
-The driver does not communicate directly with the hardware. Instead, it connects to AMSKY01_viewer via its API, allowing separation of data acquisition, visualization, and observatory control logic.
+![AMSKY01 outdoor installation](./images/amsky01-outdoor.png)
 
-Users requiring direct communication with the AMSKY01 hardware should use the indi_amsky01 driver, which connects directly to the AMSKY01 USB device without the AMSKY01_viewer backend.
+> **Note:** AMSKY01 is the first generation of the AstroMeters sky sensor family. Its successor, [AMSKY02](https://astrometers.eu/products/AMSKY02/), provides dual SQM sensors and a higher-resolution dual thermopile array. Both models use the same `indi_amsky01` driver and communication protocol.
 
-----------
+## Features
 
-## Supported Hardware
+- **Sky brightness (SQM)** – TSL2591-based measurement in lux and mag/arcsec²; 10° or 60° field of view (selectable).
+- **Infrared cloud sensor** – MLX90641 16×12 pixel thermopile array with 75°×110° field of view for sky temperature mapping.
+- **Temperature & humidity** – SHT4x sensor for precise ambient condition monitoring including dew point calculation.
+- **USB-C and RS-485 interfaces** – plug-and-play serial connection or industrial RS-485 bus.
+- **IP53W weatherproof enclosure** – designed for continuous outdoor use in observatory conditions.
 
--   AMSKY01 Sky & Cloud Sensor
-    
+## INDI Driver
 
-----------
+The driver `indi_amsky01` provides the following INDI interfaces:
 
-## Driver Architecture
+- **Weather** – sky quality (SQM), cloud status, temperature, humidity, dew point.
+- **Auxiliary** – raw sensor readings and IR frame data.
 
-```
-AMSKY01 hardware
-        ↓
-AMSKY01_viewer (data acquisition & visualization)
-        ↓
-indi_amsky01_api (INDI driver)
-        ↓
-INDI clients (e.g. Ekos, custom clients)
+### Starting the driver
 
+```bash
+indiserver indi_amsky01
 ```
 
-This architecture allows AMSKY01_viewer to be used independently for visualization and diagnostics, while INDI clients access the same data stream through a standardized interface.
+### Connection
 
-The AMSKY01_viewer Python application can also be used as a standalone tool without any running INDI instance. It supports logging of pixel-level thermal data, SQM measurements, and hygrometer data directly to files for long-term storage and offline analysis. AMSKY01_viewer can expose its API over the network, enabling remote access to measured data from another computer on the local network or across routed IP connections.
+In KStars/Ekos, select the **AstroMeters AMSKY01** driver. You can connect via:
 
-----------
+- **Serial** – direct USB-C connection (`/dev/ttyACM0` or by-id symlink).
+- **TCP** – if the device is shared over the network via `ser2net`.
 
-## Exposed Parameters
+#### Stable device naming (udev)
 
-The driver publishes the following measurements and properties via INDI:
+```udev
+SUBSYSTEM=="tty", ATTRS{idVendor}=="1209", ATTRS{idProduct}=="ae02", SYMLINK+="ttyAMSKY"
+```
 
--   Sky brightness
-    
--   Cloud temperature data
-    
--   Ambient temperature
-    
--   Relative humidity
-    
--   Sensor status and connection state
-    
+Apply with:
+```bash
+sudo udevadm control --reload-rules && sudo udevadm trigger
+```
 
-Exact parameter naming and availability depend on the AMSKY01_viewer configuration and firmware version.
+![INDI control panel](./images/indi-panel.png)
 
-----------
+## Python Viewer
 
-## Connection
+A GUI visualiser (`amsky01_viewer.py`) is available for real-time data display including IR thermal map, SQM readings and environmental data.
 
--   Backend: AMSKY01_viewer API
-    
--   INDI transport: Standard INDI TCP/IP
-    
--   Operating systems: Linux and other POSIX-compatible systems
-    
+```bash
+python3 amsky01_viewer.py --port /dev/ttyACM0 --baud 115200
+```
 
-AMSKY01_viewer must be running and reachable before connecting the INDI driver.
+![Python GUI viewer](./images/python-ui.png)
 
-----------
+## Technical Specifications
 
-## Intended Use
+| Parameter | [AMSKY01](https://astrometers.eu/products/AMSKY02/) |
+|---|---|
+| Cloud detection | MLX90641 16×12 px, 75°×110° FoV |
+| Sky brightness (SQM) | TSL2591, 10° or 60° FoV, mag/arcsec² |
+| Temperature range | −15 °C to +50 °C |
+| Humidity | SHT4x relative humidity |
+| Interfaces | USB-C (CDC serial), RS-485 |
+| Power supply | USB bus power or external 8–13 V DC |
+| Ingress protection | IP53W |
 
--   Automated observatories
--   Weather and sky condition monitoring
--   Dome and roof control logic
--   Long-term sky quality measurements
--   Research and educational installations
+## Resources
 
-----------
-
-## References
-
--   AMSKY01 product page:  [https://astrometers.eu/products/AMSKY01/](https://astrometers.eu/products/AMSKY01/)
-    
--   AMSKY01 GitHub repository:  [https://github.com/roman-dvorak/AMSKY01](https://github.com/roman-dvorak/AMSKY01)
+- [AstroMeters documentation](https://astrometers.eu/docs/AMSKY/)
+- [Product page](https://astrometers.eu/products/AMSKY02/)
+- [AMSKY02 driver documentation](/weather-stations/astrometers/amsky02/amsky02)
