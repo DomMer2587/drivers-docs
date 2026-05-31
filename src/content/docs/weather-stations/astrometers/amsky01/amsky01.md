@@ -7,7 +7,7 @@ thumbnail: ./images/amsky01-outdoor.webp
 
 ## Overview
 
-The **AMSKY01** is a compact, weatherproof sky sensor designed for astronomical observatories and environmental monitoring. It combines sky brightness measurement, infrared cloud detection and ambient condition monitoring in a single outdoor-rated unit.
+The **[AMSKY01](https://astrometers.eu/products/AMSKY01/)** is a compact, weatherproof sky sensor designed for astronomical observatories and environmental monitoring. It combines sky brightness measurement, infrared cloud detection and ambient condition monitoring in a single outdoor-rated unit.
 
 ![AMSKY01 outdoor installation](./images/amsky01-outdoor.webp)
 
