@@ -15,7 +15,7 @@ Pegasus Astro – Falcon Rotator is a light-weighted, low profile camera field r
 
 -   **Goto**: Command rotator to a specific rotation angle. 0 degrees is home position where the camera is level.
 -   **Sync**: If the current position angle value is incorrect, use Sync to reset it to the correct observed value.
--   **Derotation**: Set  **Experimental**  field derotation. Value is steps per millisecond.
+-   **Derotation**: Set  **Experimental**  field derotation. Value is the interval in milliseconds between two rotator steps; 0 disables it. For the Falcon V2 see the [Pegasus Falcon V2](/rotators/pegasus-astro/pegasus-falconv2/pegasus-falconv2) page.
 -   **Firmware**: Display rotator firmware.
 -   **Reload**: Reload rotator firmware.
 

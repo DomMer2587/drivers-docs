@@ -7,6 +7,6 @@ manufacturer_name: Avalon Instruments
 executable: indi_lx200stargo
 platforms: Linux, BSD, MacOS
 author: Wolfgang Reissenberger
-version: 1.7
+version: 1.14
 
 

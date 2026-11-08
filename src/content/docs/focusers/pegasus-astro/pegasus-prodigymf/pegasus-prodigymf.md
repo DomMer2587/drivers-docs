@@ -2,7 +2,7 @@
 title: Pegasus ProdigyMF
 categories: ["focusers"]
 description: Pegasus ProdigyMF
-thumbnail: ./pegasus_prodigymf.webp
+thumbnail: ./pegasus-prodigymf.webp
 ---
 
 

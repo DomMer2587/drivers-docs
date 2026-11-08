@@ -2,7 +2,7 @@
 title: Pegasus FocusCube
 categories: ["focusers"]
 description: Pegasus FocusCube
-thumbnail: ./pegasus_focuscube.webp
+thumbnail: ./pegasus-focuscube.webp
 ---
 
 

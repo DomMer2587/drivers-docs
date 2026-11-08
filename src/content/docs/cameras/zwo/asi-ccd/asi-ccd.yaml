@@ -6,6 +6,6 @@ manufacturer_name: ZWO Optics
 # Additional Metadata (Optional)
 executable: indi_asi_ccd
 Family: Cameras
-Platforms: Linux
+Platforms: Linux, MacOS
 Author: Jasem Mutlaq
-version: 2.1
+version: 2.7

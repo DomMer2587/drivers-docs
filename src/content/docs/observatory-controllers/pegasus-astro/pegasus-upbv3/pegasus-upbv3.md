@@ -2,7 +2,7 @@
 title: Pegasus Ultimate Power Box V3
 categories: ["observatory-controllers"]
 description: Pegasus Ultimate Power Box V3
-thumbnail: ./pegasus-upb3.webp
+thumbnail: ./pegasus-upbv3.webp
 ---
 
 ## Features
