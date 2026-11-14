@@ -42,6 +42,8 @@ indiserver -v indi_avalon_upas
 > [!NOTE]
 > A saved configuration keeps its values. If you used an older version of the driver, your configuration may still hold other gear ratios. Set them to 2 and 22 and save the configuration again.
 
+![Main Control tab of the Avalon UPAS driver in the INDI Control Panel](./images/avalon-upas-main-control.webp)
+
 | Property | Meaning |
 |----------|---------|
 | Manual Adjustment | Relative move in **degrees** per axis, range ±10 |
